@@ -2,6 +2,7 @@
 import { Navbar, Button, Link, Text } from "@nextui-org/react";
 import { Layout } from "../components/Layout";
 import { AcmeLogo } from "../components/AcmeLogo";
+import ClientsList from '../components/clients/List'
 
 const Expediente = () => {
   return (
@@ -22,17 +23,17 @@ const Expediente = () => {
           <Navbar.Link href="#">Finanzas</Navbar.Link>
         </Navbar.Content>
         <Navbar.Content>
-          <Navbar.Link color="inherit" href="#">
+          {/* <Navbar.Link color="inherit" href="#">
             Login
-          </Navbar.Link>
+          </Navbar.Link> */}
           <Navbar.Item>
             <Button auto flat as={Link} href="#">
-              Sign Up
+              Nuevo
             </Button>
           </Navbar.Item>
         </Navbar.Content>
       </Navbar>
-      <h1>Hello world</h1>
+      <ClientsList />
     </Layout>
   );
 }
