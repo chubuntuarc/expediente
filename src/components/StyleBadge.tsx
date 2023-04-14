@@ -25,7 +25,7 @@ export const StyledBadge = styled("span", {
         bg: "$errorLight",
         color: "$errorLightContrast",
       },
-      vacation: {
+      debt: {
         bg: "$warningLight",
         color: "$warningLightContrast",
       },
