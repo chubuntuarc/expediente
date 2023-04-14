@@ -7,6 +7,20 @@ import ClientsList from '../components/clients/List'
 import clients from '../db/clients'
 import ClientFormModal from '../components/ClientFormModal'
 
+interface Client {
+  id: number;
+  name: string;
+  location: string;
+  phone: string;
+  status: string;
+  status_text: string;
+  years_old: string;
+  last_date: string;
+  treatment: string;
+  avatar: string;
+  budget: string;
+}
+
 const Expediente = () => {
   const [visible, setVisible] = useState(false);
   const handler = () => setVisible(true);
@@ -34,7 +48,7 @@ const Expediente = () => {
     setNewClient({ ...newClient, [key]: value });
   }
 
-  const handleAddClient = (newClientData, update = false) => {
+  const handleAddClient = (newClientData: Client, update = false) => {
     if (update) {
       const objWithIdIndex = clients.findIndex((obj) => obj.id === newClientData.id);
       clients.splice(objWithIdIndex, 1);

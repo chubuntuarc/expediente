@@ -8,7 +8,15 @@ import {
   Row,
 } from "@nextui-org/react";
 
-const ClientFormModal = ({client, visible, setVisible, saveAction, onChangeInput}) => {
+interface Client {
+  client: any;
+  visible: boolean;
+  setVisible: any;
+  saveAction: any;
+  onChangeInput: any;
+}
+
+const ClientFormModal = ({client, visible, setVisible, saveAction, onChangeInput}: Client) => {
   return (
     <Modal
       closeButton

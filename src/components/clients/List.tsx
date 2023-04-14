@@ -7,10 +7,15 @@ import { EditIcon } from "../EditIcon";
 import { DeleteIcon } from "../DeleteIcon";
 import ClientFormModal from "../ClientFormModal";
 
+interface List {
+  clients: any;
+  saveAction: any;
+}
+
 const ClientsList = ({
   clients,
   saveAction,
-}) => {
+}: List) => {
   const [visibleModal, setVisibleModal] = useState(false);
   const [updatedClient, setUpdatedClient] = useState({});
   const columns = [
