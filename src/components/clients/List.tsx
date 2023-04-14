@@ -1,76 +1,47 @@
+import { useState } from "react";
 import { Table, Row, Col, Tooltip, User, Text } from "@nextui-org/react";
 import { StyledBadge } from "../StyleBadge";
 import { IconButton } from "../IconButton";
 import { EyeIcon } from "../EyeIcon";
 import { EditIcon } from "../EditIcon";
 import { DeleteIcon } from "../DeleteIcon";
+import ClientFormModal from "../ClientFormModal";
 
-const ClientsList = () => {
+const ClientsList = ({
+  clients,
+  saveAction,
+}) => {
+  const [visibleModal, setVisibleModal] = useState(false);
+  const [updatedClient, setUpdatedClient] = useState({});
   const columns = [
     { name: "Nombre", uid: "name" },
-    { name: "Trabajo", uid: "role" },
+    { name: "Tratamiento", uid: "treatment" },
+    { name: "Ultima cita", uid: "last_date" },
     { name: "Estado", uid: "status" },
     { name: "ACTIONS", uid: "actions" },
   ];
-  const users = [
-    {
-      id: 1,
-      name: "Tony Reichert",
-      role: "Endodoncia",
-      team: "",
-      status: "active",
-      age: "29",
-      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-      email: "tony.reichert@example.com",
-    },
-    {
-      id: 2,
-      name: "Zoey Lang",
-      role: "Extraccion",
-      team: "",
-      status: "paused",
-      age: "25",
-      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
-      email: "zoey.lang@example.com",
-    },
-    {
-      id: 3,
-      name: "Jane Fisher",
-      role: "Endodoncia",
-      team: "",
-      status: "active",
-      age: "22",
-      avatar: "https://i.pravatar.cc/150?u=a04258114e29026702d",
-      email: "jane.fisher@example.com",
-    },
-    {
-      id: 4,
-      name: "William Howard",
-      role: "Endodoncia",
-      team: "",
-      status: "vacation",
-      age: "28",
-      avatar: "https://i.pravatar.cc/150?u=a048581f4e29026701d",
-      email: "william.howard@example.com",
-    },
-    {
-      id: 5,
-      name: "Kristen Copper",
-      role: "Endodoncia",
-      team: "",
-      status: "active",
-      age: "24",
-      avatar: "https://i.pravatar.cc/150?u=a092581d4ef9026700d",
-      email: "kristen.cooper@example.com",
-    },
-  ];
+  
+  const handleEditClient = (client) => {
+    setUpdatedClient(client)
+    setVisibleModal(true);
+  }
+  
+  const updateClient = (key: string, value: any) => {
+    setUpdatedClient({ ...updatedClient, [key]: value });
+  };
+  
+  const handleSaveAction = () => {
+    saveAction(updatedClient, true);
+    setVisibleModal(false)
+  }
+
   const renderCell = (user, columnKey) => {
     const cellValue = user[columnKey];
     switch (columnKey) {
       case "name":
         return (
           <User squared src={user.avatar} name={cellValue} css={{ p: 0 }}>
-            {user.email}
+            {user.phone}
           </User>
         );
       case "role":
@@ -89,25 +60,25 @@ const ClientsList = () => {
           </Col>
         );
       case "status":
-        return <StyledBadge type={user.status}>{cellValue}</StyledBadge>;
+        return <StyledBadge type={user.status}>{user.status_text}</StyledBadge>;
 
       case "actions":
         return (
           <Row justify="center" align="center">
             <Col css={{ d: "flex" }}>
               <Tooltip content="Detalle">
-                <IconButton onClick={() => console.log("View user", user.id)}>
+                <IconButton onClick={() => handleEditClient(user)}>
                   <EyeIcon size={20} fill="#979797" />
                 </IconButton>
               </Tooltip>
             </Col>
-            <Col css={{ d: "flex" }}>
+            {/* <Col css={{ d: "flex" }}>
               <Tooltip content="Editar">
-                <IconButton onClick={() => console.log("Edit user", user.id)}>
+                <IconButton onClick={() => handleEditClient(user)}>
                   <EditIcon size={20} fill="#979797" />
                 </IconButton>
               </Tooltip>
-            </Col>
+            </Col> */}
             {/* <Col css={{ d: "flex" }}>
               <Tooltip
                 content="Eliminar"
@@ -126,36 +97,45 @@ const ClientsList = () => {
     }
   };
   return (
-    <Table
-      aria-label="Example table with custom cells"
-      css={{
-        height: "auto",
-        minWidth: "100%",
-      }}
-      selectionMode="none"
-    >
-      <Table.Header columns={columns}>
-        {(column) => (
-          <Table.Column
-            key={column.uid}
-            hideHeader={column.uid === "actions"}
-            align={column.uid === "actions" ? "center" : "start"}
-          >
-            {column.name}
-          </Table.Column>
-        )}
-      </Table.Header>
-      <Table.Body items={users}>
-        {(item) => (
-          <Table.Row>
-            {(columnKey) => (
-              <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
-            )}
-          </Table.Row>
-        )}
-      </Table.Body>
-    </Table>
+    <>
+      <Table
+        aria-label="Example table with custom cells"
+        css={{
+          height: "auto",
+          minWidth: "100%",
+        }}
+        selectionMode="none"
+      >
+        <Table.Header columns={columns}>
+          {(column) => (
+            <Table.Column
+              key={column.uid}
+              hideHeader={column.uid === "actions"}
+              align={column.uid === "actions" ? "center" : "start"}
+            >
+              {column.name}
+            </Table.Column>
+          )}
+        </Table.Header>
+        <Table.Body items={[...clients].reverse()}>
+          {(item) => (
+            <Table.Row>
+              {(columnKey) => (
+                <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
+              )}
+            </Table.Row>
+          )}
+        </Table.Body>
+      </Table>
+      <ClientFormModal
+        client={updatedClient}
+        visible={visibleModal}
+        setVisible={setVisibleModal}
+        saveAction={handleSaveAction}
+        onChangeInput={updateClient}
+      />
+    </>
   );
-}
+};
 
-export default ClientsList
+export default ClientsList;
