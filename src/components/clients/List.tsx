@@ -7,6 +7,19 @@ import { EditIcon } from "../EditIcon";
 import { DeleteIcon } from "../DeleteIcon";
 import ClientFormModal from "../ClientFormModal";
 
+interface Client {
+  id: number;
+  name: string;
+  location: string;
+  phone: string;
+  status: string;
+  status_text: string;
+  years_old: string;
+  last_date: string;
+  treatment: string;
+  avatar: string;
+  budget: string;
+}
 interface List {
   clients: any;
   saveAction: any;
@@ -26,10 +39,10 @@ const ClientsList = ({
     { name: "ACTIONS", uid: "actions" },
   ];
   
-  const handleEditClient = (client) => {
-    setUpdatedClient(client)
+  const handleEditClient = (client: Client) => {
+    setUpdatedClient(client);
     setVisibleModal(true);
-  }
+  };
   
   const updateClient = (key: string, value: any) => {
     setUpdatedClient({ ...updatedClient, [key]: value });
@@ -40,7 +53,7 @@ const ClientsList = ({
     setVisibleModal(false)
   }
 
-  const renderCell = (user, columnKey) => {
+  const renderCell = (user: any, columnKey: any) => {
     const cellValue = user[columnKey];
     switch (columnKey) {
       case "name":
@@ -73,7 +86,12 @@ const ClientsList = ({
             <Col css={{ d: "flex" }}>
               <Tooltip content="Detalle">
                 <IconButton onClick={() => handleEditClient(user)}>
-                  <EyeIcon size={20} fill="#979797" />
+                  <EyeIcon
+                    size={20}
+                    fill="#979797"
+                    height={null}
+                    width={null}
+                  />
                 </IconButton>
               </Tooltip>
             </Col>

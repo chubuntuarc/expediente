@@ -1,7 +1,6 @@
-import { Content } from "../components/Contents";
 import { Box } from "../components/Box";
 
-export const Layout = ({ children }) => (
+export const Layout = ({ children } : any) => (
   <Box
     css={{
       maxW: "100%",
